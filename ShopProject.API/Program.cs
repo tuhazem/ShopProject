@@ -3,8 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using ShopProject.Application.Common.Interfaces;
 using ShopProject.Application.Common.Mapping;
 using ShopProject.Infrastructure.Persistence;
+using FluentValidation;
 
 using System.Data;
+using MediatR;
+using ShopProject.Application.Features.Products.Commands.Behavior;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +29,10 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(IApplicationDbContext).Assembly);
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>) , typeof(ValidationBehavior<,>));
 });
+
+builder.Services.AddValidatorsFromAssembly(typeof(IApplicationDbContext).Assembly);
 
 builder.Services.AddControllers();
 
