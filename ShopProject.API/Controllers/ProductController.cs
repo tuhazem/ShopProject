@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShopProject.Application.Common.Models;
 using ShopProject.Application.Features.Products;
 using ShopProject.Application.Features.Products.Commands;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -28,11 +29,9 @@ namespace ShopProject.API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductDTO>>> GetAll()
+        public async Task<ActionResult<PaginatedList<ProductDTO>>> GetAll([FromQuery] GetProductsWithPaginationQuery query)
         {
-
-            return await mediator.Send(new GetProductQuery());
-
+            return await mediator.Send(query);
         }
 
 
