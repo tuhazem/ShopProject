@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ShopProject.Application.Features.Categories;
+using ShopProject.Application.Features.Categories.Commands;
 using ShopProject.Application.Features.Products;
+using ShopProject.Application.Features.Products.Commands;
 using ShopProject.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,9 @@ namespace ShopProject.Application.Common.Mapping
         {
             CreateMap<Product, ProductDTO>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+
+            CreateMap<UpdateProductCommand, Product>();
+            CreateMap<UpdateCategoryCommand, Category>();
 
 
             CreateMap<Product, ProdctShortDTO>();

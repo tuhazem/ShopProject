@@ -10,23 +10,47 @@ namespace ShopProject.API.Exceptions
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            if (exception is ValidationException validationexception) {
-
+            
+            if (exception is ValidationException validationexception)
+            {
                 httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-
-                var proplemDetails = new ProblemDetails
-                { 
+                var problemDetails = new ProblemDetails
+                {
                     Status = StatusCodes.Status400BadRequest,
                     Title = "Validation Error",
-                    Detail = "Errors in Data",
+                    Detail = "One or more validation errors occurred.",
                     Extensions = { ["errors"] = validationexception.Errors.Select(e => e.ErrorMessage) }
-
                 };
-
-                await httpContext.Response.WriteAsJsonAsync(proplemDetails, cancellationToken);
+                await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
                 return true;
             }
-            return false;
+
+           
+            if (exception.Message.Contains("not found") || exception.Message.Contains("مش موجود"))
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                var problemDetails = new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Not Found",
+                    Detail = exception.Message
+                };
+                await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+                return true;
+            }
+
+            
+            httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            var genericProblem = new ProblemDetails
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "Server Error",
+                Detail = "An unexpected error occurred."
+            };
+            await httpContext.Response.WriteAsJsonAsync(genericProblem, cancellationToken);
+
+            return true; 
         }
     }
-}
+    }
+

@@ -22,5 +22,6 @@ namespace ShopProject.Infrastructure.Persistence
         {
             return await base.SaveChangesAsync(cancellationToken);
         }
+
     }
 }

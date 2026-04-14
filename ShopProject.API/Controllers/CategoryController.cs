@@ -42,7 +42,25 @@ namespace ShopProject.API.Controllers
             }
             return Ok(result);
 
+        }
 
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteCategory(int id)
+        {
+            await mediator.Send(new DeleteCategoryCommand(id));
+            return NoContent();
+        }
+
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<bool>> UpdateCategory(int id, UpdateCategoryCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+            await mediator.Send(command);
+            return NoContent();
         }
     }
 }
