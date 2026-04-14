@@ -8,6 +8,7 @@ using FluentValidation;
 using System.Data;
 using MediatR;
 using ShopProject.Application.Features.Products.Commands.Behavior;
+using ShopProject.API.Exceptions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,11 +35,17 @@ builder.Services.AddMediatR(cfg =>
 
 builder.Services.AddValidatorsFromAssembly(typeof(IApplicationDbContext).Assembly);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
 
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
@@ -52,6 +59,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 
 app.MapControllers();

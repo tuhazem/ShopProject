@@ -25,7 +25,7 @@ namespace ShopProject.Application.Features.Products
 
         public async Task<ProductDTO> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == request.id , cancellationToken);
+            var product = await context.Products.Include(c=> c.Category).FirstOrDefaultAsync(p => p.Id == request.id , cancellationToken);
             return mapper.Map<ProductDTO>(product);
         }
     }

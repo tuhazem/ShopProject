@@ -26,7 +26,7 @@ namespace ShopProject.Application.Features.Products
 
         public async Task<List<ProductDTO>> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            return await context.Products.ProjectTo<ProductDTO>(mapper.ConfigurationProvider)
+            return await context.Products.Include(p=> p.Category).ProjectTo<ProductDTO>(mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
         }

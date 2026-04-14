@@ -16,6 +16,8 @@ namespace ShopProject.Infrastructure.Persistence
 
         public DbSet<Product> Products => Set<Product>();
 
+        public DbSet<Category> Categories => Set<Category>();
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await base.SaveChangesAsync(cancellationToken);

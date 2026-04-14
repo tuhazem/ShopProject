@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ShopProject.Application.Features.Categories;
 using ShopProject.Application.Features.Products;
 using ShopProject.Domain.Entities;
 using System;
@@ -13,7 +14,12 @@ namespace ShopProject.Application.Common.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Product, ProductDTO>();
+            CreateMap<Product, ProductDTO>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+
+
+            CreateMap<Product, ProdctShortDTO>();
+            CreateMap<Category, CategoryDTO>();
         }
 
     }

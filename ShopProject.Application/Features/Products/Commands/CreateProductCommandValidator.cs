@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using ShopProject.Application.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,9 @@ namespace ShopProject.Application.Features.Products.Commands
 {
     public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
     {
-        public CreateProductCommandValidator()
+        private readonly IApplicationDbContext context;
+
+        public CreateProductCommandValidator(IApplicationDbContext context)
         {
 
             RuleFor(p => p.Name).
@@ -21,6 +25,19 @@ namespace ShopProject.Application.Features.Products.Commands
 
             RuleFor(p => p.Description).
                 NotEmpty().WithMessage("Description is required");
+
+            RuleFor(c => c.CategoryId)
+                .NotEmpty().WithMessage("Category Id is required")
+                .MustAsync(CategoryExists).WithMessage("Category Id is not valid");
+
+            this.context = context;
+        }
+
+        private async Task<bool> CategoryExists(int categoryid, CancellationToken cancellationToken)
+        { 
+            return await context.Categories.AnyAsync(c => c.Id == categoryid, cancellationToken);
+
+
         }
 
     }
