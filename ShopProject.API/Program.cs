@@ -56,6 +56,12 @@ builder.Services.AddOpenApi();
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAngular", policy => {
+        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+    });
+});
+
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
     options =>
@@ -95,6 +101,9 @@ builder.Services.AddAuthentication(
 
 var app = builder.Build();
 
+
+app.UseHttpsRedirection();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -105,8 +114,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseCors("AllowAngular");
+
 app.UseExceptionHandler();
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
