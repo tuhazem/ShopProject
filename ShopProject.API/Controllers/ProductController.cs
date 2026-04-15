@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShopProject.Application.Common.Models;
@@ -8,6 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace ShopProject.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -19,6 +21,7 @@ namespace ShopProject.API.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<int>> Create(CreateProductCommand command)
         {
@@ -27,7 +30,7 @@ namespace ShopProject.API.Controllers
             return Ok(result);
         }
 
-
+        
         [HttpGet]
         public async Task<ActionResult<PaginatedList<ProductDTO>>> GetAll([FromQuery] GetProductsWithPaginationQuery query)
         {
