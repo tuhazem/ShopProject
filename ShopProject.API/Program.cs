@@ -12,6 +12,7 @@ using ShopProject.Application.Common.Mapping;
 using ShopProject.Application.Features.Products.Commands.Behavior;
 using ShopProject.Domain.Entities;
 using ShopProject.Infrastructure;
+using ShopProject.Infrastructure.Implementations;
 using ShopProject.Infrastructure.Persistence;
 using ShopProject.Infrastructure.Services;
 using System.Data;
@@ -43,6 +44,9 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddValidatorsFromAssembly(typeof(IApplicationDbContext).Assembly);
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
