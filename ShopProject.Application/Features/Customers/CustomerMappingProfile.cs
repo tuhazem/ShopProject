@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ShopProject.Application.Features.Customers.Commands;
+using ShopProject.Application.Features.Customers.Queries;
 using ShopProject.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace ShopProject.Application.Features.Customers
         public CustomerMappingProfile()
         {
             CreateMap<UpdateCustomerCommand, Customer>();
+            CreateMap<Customer, CustomerDTO>();
         }
     }
 }

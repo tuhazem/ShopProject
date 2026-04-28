@@ -61,5 +61,15 @@ namespace ShopProject.API.Controllers
                 return NotFound($"Customer with ID {id} not found in DB or logic failed.");
             return Ok("Customer restored successfully.");
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> GetCustomer([FromQuery] int? id, [FromQuery] string? name) {
+
+            var query = new GetCustomerByIdOrNameQuery { Id = id, Name = name };
+            var result = await mediator.Send(query);
+
+            if (result == null) return NotFound("This Customer Not Found");
+            return Ok(result);
+        }
     }
 }

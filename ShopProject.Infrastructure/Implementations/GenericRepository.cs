@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ShopProject.Infrastructure.Persistence;
+using System.Linq.Expressions;
 
 namespace ShopProject.Infrastructure.Implementations
 {
@@ -16,6 +17,7 @@ namespace ShopProject.Infrastructure.Implementations
         public GenericRepository(ApplicationDbContext context)
         {
             this.context = context;
+            
         }
 
         public async Task AddAsync(T entity) => await context.Set<T>().AddAsync(entity);
@@ -23,6 +25,10 @@ namespace ShopProject.Infrastructure.Implementations
 
         public void Delete(T entity) => context.Set<T>().Remove(entity);
 
+        public async Task<T> FindAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await context.Set<T>().FirstOrDefaultAsync(predicate);
+        }
 
         public async Task<IEnumerable<T>> GetAllAsync() => await context.Set<T>().ToListAsync();
 
