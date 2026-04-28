@@ -31,5 +31,35 @@ namespace ShopProject.API.Controllers
             var result = await mediator.Send(new GetAllCustomersQuery());
             return Ok(result);
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Update(int id, UpdateCustomerCommand command)
+        {
+            if (id != command.Id)
+                return BadRequest("Id in URL does not match Id in request body.");
+            var result = await mediator.Send(command);
+            if (!result)
+                return NotFound("Customer not found.");
+            return Ok("Customer updated successfully.");
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await mediator.Send(new DeleteCustomerCommand(id));
+            if (!result)
+                return NotFound("Customer not found.");
+            return Ok("Customer deleted successfully.");
+        }
+
+        [HttpPost("{id:int}/restore")]
+        public async Task<IActionResult> Restore(int id)
+        {
+            Console.WriteLine($"Restoring Customer with ID: {id}");
+            var result = await mediator.Send(new RestoreCustomerCommand(id));
+            if (!result)
+                return NotFound($"Customer with ID {id} not found in DB or logic failed.");
+            return Ok("Customer restored successfully.");
+        }
     }
 }

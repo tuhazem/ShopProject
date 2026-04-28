@@ -45,7 +45,7 @@ builder.Services.AddValidatorsFromAssembly(typeof(IApplicationDbContext).Assembl
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>) , typeof(ValidationBehavior<,>));
 
 
 builder.Services.AddControllers().AddJsonOptions(options =>

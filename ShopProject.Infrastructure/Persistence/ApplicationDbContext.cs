@@ -26,5 +26,21 @@ namespace ShopProject.Infrastructure.Persistence
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Customer>().HasQueryFilter(c => !c.IsDeleted);
+
+            base.OnModelCreating(builder);
+
+            builder.Entity<Customer>()
+                .HasIndex(c => c.Phone)
+                .IsUnique();
+            
+            builder.Entity<Customer>()
+                .HasIndex(c => c.Email)
+                .IsUnique();
+        }
+
+
     }
 }
