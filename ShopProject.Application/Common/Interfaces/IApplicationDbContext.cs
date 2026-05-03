@@ -14,6 +14,8 @@ namespace ShopProject.Application.Common.Interfaces
             DbSet<Category> Categories { get; }
 
             DbSet<Customer> Customers { get; }
+            DbSet<Order> Orders { get; }
+            DbSet<OrderItem> OrderItems { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

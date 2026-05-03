@@ -10,6 +10,10 @@ namespace ShopProject.Application.Common.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IGenericRepository<Customer> Customers { get; }
+        IGenericRepository<Order> Orders { get; }
+
+        IGenericRepository<Product> Products { get; }
+        IGenericRepository<Category> Categories { get; }
 
         Task<int> CompleteAsync();
     }

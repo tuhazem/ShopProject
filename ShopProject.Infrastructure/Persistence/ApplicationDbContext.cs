@@ -21,6 +21,9 @@ namespace ShopProject.Infrastructure.Persistence
 
         public DbSet<Customer> Customers => Set<Customer>();
 
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await base.SaveChangesAsync(cancellationToken);
@@ -39,6 +42,15 @@ namespace ShopProject.Infrastructure.Persistence
             builder.Entity<Customer>()
                 .HasIndex(c => c.Email)
                 .IsUnique();
+
+            builder.Entity<OrderItem>()
+            .Property(oi => oi.UnitPrice)
+            .HasColumnType("decimal(18,2)");
+
+            
+            builder.Entity<Order>()
+                .Property(o => o.TotalPrice)
+                .HasColumnType("decimal(18,2)");
         }
 
 

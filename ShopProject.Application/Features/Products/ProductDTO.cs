@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace ShopProject.Application.Features.Products
 {
-    public record ProductDTO(int Id , string Name ,string Description ,decimal Price , string CategoryName);
+    public record ProductDTO(int Id , string Name ,string Description ,decimal Price , string CategoryName , int Stock);
     
 }
