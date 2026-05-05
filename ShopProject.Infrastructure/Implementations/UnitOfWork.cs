@@ -18,6 +18,7 @@ namespace ShopProject.Infrastructure.Implementations
         public IGenericRepository<Order> Orders { get; private set; }
         public IGenericRepository<Product> Products { get; private set; }
         public IGenericRepository<Category> Categories { get; private set; }
+        public IGenericRepository<OrderItem> Orderitems { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -26,6 +27,7 @@ namespace ShopProject.Infrastructure.Implementations
             Orders = new GenericRepository<Order>(context);
             Products = new GenericRepository<Product>(context);
             Categories = new GenericRepository<Category>(context);
+            Orderitems = new GenericRepository<OrderItem>(context);
         }
 
         public async Task<int> CompleteAsync() => await context.SaveChangesAsync();

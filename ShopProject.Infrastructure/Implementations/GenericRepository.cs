@@ -35,8 +35,14 @@ namespace ShopProject.Infrastructure.Implementations
 
         public async Task<T?> GetByIdAsync(int id) => await context.Set<T>().FindAsync(id);
 
+        public IQueryable<T> GetQueryable()
+        {
+            return context.Set<T>().AsQueryable();
+        }
 
         public void Update(T entity) => context.Set<T>().Update(entity);
+
+
 
     }
 }

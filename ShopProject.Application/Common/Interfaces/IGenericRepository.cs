@@ -16,5 +16,7 @@ namespace ShopProject.Application.Common.Interfaces
         void Delete(T entity);
 
         Task<T> FindAsync(Expression<Func<T,bool>> predicate);
+
+        IQueryable<T> GetQueryable();
     }
 }
