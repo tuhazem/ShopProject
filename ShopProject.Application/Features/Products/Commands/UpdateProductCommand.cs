@@ -18,6 +18,8 @@ namespace ShopProject.Application.Features.Products.Commands
         public decimal Price { get; init; }
 
         public int CategoryId { get; set; }
+
+        public int Stock { get; set; }
     }
 
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, bool> {

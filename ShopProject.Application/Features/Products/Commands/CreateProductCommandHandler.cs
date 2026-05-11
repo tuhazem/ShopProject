@@ -25,7 +25,8 @@ namespace ShopProject.Application.Features.Products.Commands
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price,
-                CategoryId = request.CategoryId
+                CategoryId = request.CategoryId,
+                Stock = request.Stock
             };
 
             context.Products.Add(entity);
