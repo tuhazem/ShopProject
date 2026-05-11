@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShopProject.Application.Features.Orders;
 using ShopProject.Application.Features.Orders.Command;
 using ShopProject.Domain.Entities;
 
@@ -27,7 +28,21 @@ namespace ShopProject.API.Controllers
                 return Ok(new { Message = "Order created successfully!", OrderId = order });
 
             }
-            catch (Exception ex) { 
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            try
+            {
+                var orders = await mediator.Send(new GetAllOrderQuery());
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }

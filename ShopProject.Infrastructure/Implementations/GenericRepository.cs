@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ShopProject.Infrastructure.Persistence;
 using System.Linq.Expressions;
+using ShopProject.Domain.Entities;
 
 namespace ShopProject.Infrastructure.Implementations
 {
@@ -42,7 +43,7 @@ namespace ShopProject.Infrastructure.Implementations
 
         public void Update(T entity) => context.Set<T>().Update(entity);
 
-
+        
 
     }
 }
