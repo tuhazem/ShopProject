@@ -47,7 +47,7 @@ The solution is organized into four distinct layers:
 ### Setup Steps
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/YourUsername/ShopApp.git
+   git clone https://github.com/tuhazem/ShopProject.git
    cd ShopApp
    ```
 
@@ -90,4 +90,4 @@ dotnet test ShopApp.Application.Tests/ShopApp.Application.Tests.csproj
 ---
 
 ## 👨‍💻 Author
-**Your Name** - [GitHub](https://github.com/YourUsername)
+**Hazem Mohamed** - [GitHub](https://github.com/tuhazem)
