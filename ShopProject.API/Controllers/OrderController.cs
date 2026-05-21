@@ -20,7 +20,8 @@ namespace ShopProject.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand createOrder) {
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand createOrder)
+        {
 
             try
             {
@@ -28,7 +29,8 @@ namespace ShopProject.API.Controllers
                 return Ok(new { Message = "Order created successfully!", OrderId = order });
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
@@ -45,6 +47,26 @@ namespace ShopProject.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetOrderById(int id)
+        {
+            try
+            {
+                var order = await mediator.Send(new GetOrderByIdQuery(id));
+                if (order == null)
+                {
+                    return NotFound();
+                }
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
         }
     }
 }

@@ -11,7 +11,9 @@ namespace ShopProject.Application.Features.Orders
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
-        public string CustomerName { get; set; } 
+        public string CustomerName { get; set; }
+
+        public string DiscountCode { get; set; }
         public List<OrderItemDto> Items { get; set; } = new();
     }
 

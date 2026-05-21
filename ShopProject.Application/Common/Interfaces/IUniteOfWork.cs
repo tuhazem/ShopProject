@@ -16,6 +16,8 @@ namespace ShopProject.Application.Common.Interfaces
         IGenericRepository<Category> Categories { get; }
         IGenericRepository<OrderItem> Orderitems { get; }
 
+        IGenericRepository<Discount> Discount { get; }
+
         Task<int> CompleteAsync();
     }
 }

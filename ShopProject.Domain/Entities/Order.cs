@@ -15,7 +15,10 @@ namespace ShopProject.Domain.Entities
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
 
-        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>(); 
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+        public int? DiscountId { get; set; }
+        public Discount Discount { get; set; }
 
     }
 }

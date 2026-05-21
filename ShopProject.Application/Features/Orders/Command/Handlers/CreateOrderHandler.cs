@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ShopProject.Application.Common.Interfaces;
 using ShopProject.Domain.Entities;
 using System;
@@ -48,6 +49,18 @@ namespace ShopProject.Application.Features.Orders.Command.Handlers
                 TotalPrice += (orderItems.Quantity * orderItems.UnitPrice);
 
                 product.Stock -= itemRequest.Quantity;
+
+            }
+
+            if(!string.IsNullOrEmpty(request.DiscountCode))
+            {
+                var discount = await uow.Discount.GetQueryable()
+                    .FirstOrDefaultAsync(d => d.Code == request.DiscountCode && d.Active, cancellationToken);
+                if (discount != null && discount.ExpiryDate >= DateTime.Now) { 
+                    
+                    order.DiscountId = discount.Id;
+                    TotalPrice -= (TotalPrice * discount.Precentage);
+                }
             }
 
             order.TotalPrice = TotalPrice;

@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace ShopProject.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -21,7 +21,7 @@ namespace ShopProject.API.Controllers
             this.mediator = mediator;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<int>> Create(CreateProductCommand command)
         {

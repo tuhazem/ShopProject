@@ -60,6 +60,8 @@ namespace ShopProject.Infrastructure.Implementations
             //For Free License
             QuestPDF.Settings.License = LicenseType.Community;
 
+
+
             var document = Document.Create(container =>
             {
                 container.Page(page =>
@@ -119,11 +121,17 @@ namespace ShopProject.Infrastructure.Implementations
 
                     page.Footer().Column(col =>
                     {
-                        col.Item().AlignRight().Text($"Total Gain: {order.TotalPrice} EGP").FontSize(16).Bold();
                         col.Item().AlignCenter().Text("Thank you for shopping with us!").FontSize(10).Italic();
+                        if (order.Discount != null)
+                        {
+                            col.Item().AlignRight().Text($"Discount Applied: {order.Discount.Precentage * 100}%").FontColor(Colors.Green.Medium);
+                        }
+                        col.Item().AlignRight().Text($"Total Paid: {order.TotalPrice} EGP").FontSize(16).Bold();
                     });
                 });
             });
+
+
 
             return document.GeneratePdf();
         }
