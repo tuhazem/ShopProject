@@ -25,8 +25,21 @@ namespace ShopProject.API.Exceptions
                 return true;
             }
 
-           
-            if (exception.Message.Contains("not found") || exception.Message.Contains("مش موجود"))
+            if (exception.Message.Contains("Out of Stock") || exception.Message.Contains("out of stock"))
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                var problemDetails = new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Bad Request",
+                    Detail = exception.Message 
+                };
+                await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+                return true;
+            }
+
+
+            if (exception.Message.Contains("not found"))
             {
                 httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
                 var problemDetails = new ProblemDetails

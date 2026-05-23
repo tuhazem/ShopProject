@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using ShopProject.Application.Common.Interfaces;
 using ShopProject.Domain.Entities;
@@ -13,10 +14,12 @@ namespace ShopProject.Application.Features.Orders.Command.Handlers
     public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>
     {
         private readonly IUnitOfWork uow;
+        private readonly IStockNotificationService notificationService;
 
-        public CreateOrderHandler(IUnitOfWork _uow)
+        public CreateOrderHandler(IUnitOfWork _uow , IStockNotificationService notificationService )
         {
             uow = _uow;
+            this.notificationService = notificationService;
         }
 
         public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -30,6 +33,7 @@ namespace ShopProject.Application.Features.Orders.Command.Handlers
             };
 
             decimal TotalPrice = 0;
+            var updatedProducts = new List<Product>();
             foreach (var itemRequest in request.Items) { 
             
                 var product = await uow.Products.GetByIdAsync(itemRequest.ProductId);
@@ -50,6 +54,9 @@ namespace ShopProject.Application.Features.Orders.Command.Handlers
 
                 product.Stock -= itemRequest.Quantity;
 
+                uow.Products.Update(product);
+                updatedProducts.Add(product);
+
             }
 
             if(!string.IsNullOrEmpty(request.DiscountCode))
@@ -67,6 +74,12 @@ namespace ShopProject.Application.Features.Orders.Command.Handlers
 
             await uow.Orders.AddAsync(order);
             await uow.CompleteAsync();
+
+            foreach (var item in updatedProducts )
+            {
+                await notificationService.NotifyStockUpdateAsync(item.Id, item.Name, item.Stock , cancellationToken);
+
+            }
 
             return order.Id;
             

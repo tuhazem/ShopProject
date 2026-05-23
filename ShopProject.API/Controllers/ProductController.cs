@@ -78,6 +78,18 @@ namespace ShopProject.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("barcode/{barcode}")]
+        public async Task<ActionResult<ProductDTO>> GetProductByBarcode(string barcode)
+        {
+            
+            if (string.IsNullOrEmpty(barcode)) { 
+                return BadRequest(new { Message = "BarCode Is Empty." });
+            }
+            var result = await mediator.Send(new GetProductByBarcodeQuery(barcode));
+            return Ok(result);
 
-    }
+        }
+
+
+        }
 }

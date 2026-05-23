@@ -16,5 +16,7 @@ namespace ShopProject.Application.Features.Products.Commands
         public int CategoryId { get; set; }
 
         public int Stock { get; set; }
+
+        public string Barcode { get; set; }
     }
 }

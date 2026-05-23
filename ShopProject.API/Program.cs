@@ -12,6 +12,7 @@ using ShopProject.Application.Common.Mapping;
 using ShopProject.Application.Features.Products.Commands.Behavior;
 using ShopProject.Domain.Entities;
 using ShopProject.Infrastructure;
+using ShopProject.Infrastructure.Hubs;
 using ShopProject.Infrastructure.Implementations;
 using ShopProject.Infrastructure.Persistence;
 using ShopProject.Infrastructure.Services;
@@ -46,6 +47,8 @@ builder.Services.AddValidatorsFromAssembly(typeof(IApplicationDbContext).Assembl
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>) , typeof(ValidationBehavior<,>));
+builder.Services.AddSignalR();
+builder.Services.AddScoped<IStockNotificationService, StockNotificationService>();
 
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -140,5 +143,6 @@ using (var scope = app.Services.CreateScope())
     await ContextSeed.SeedAdminAsync(userManager);
 }
 
+app.MapHub<StockHub>("/r/stockHub");
 app.Run();
 

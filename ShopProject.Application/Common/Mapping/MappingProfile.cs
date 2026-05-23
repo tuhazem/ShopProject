@@ -29,6 +29,9 @@ namespace ShopProject.Application.Common.Mapping
 
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
+
+            CreateMap<Product, ProductBarcodeDTO>();
+
         }
 
     }
